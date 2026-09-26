@@ -22,16 +22,19 @@
 #define WITH_TETRIS 1
 #define WITH_SNAKE 1
 #define WITH_DINO 1
+#define WITH_ARKANOID 1
 #elif defined(GAMEBOX_UNO_ARCADE)
 #define WITH_MARIO 0
 #define WITH_TETRIS 1
 #define WITH_SNAKE 1
 #define WITH_DINO 1
+#define WITH_ARKANOID 1
 #else
 #define WITH_MARIO 1
 #define WITH_TETRIS 1
 #define WITH_SNAKE 1
 #define WITH_DINO 1
+#define WITH_ARKANOID 0
 #endif
 
 #if WITH_MARIO
@@ -45,6 +48,9 @@
 #endif
 #if WITH_DINO
 #include "games/dino/DinoGame.h"
+#endif
+#if WITH_ARKANOID
+#include "games/arkanoid/ArkanoidGame.h"
 #endif
 #include "system/JoystickSetup.h"
 #include "system/SettingsApp.h"
@@ -76,6 +82,9 @@ constexpr size_t GAME_ARENA_SIZE = maxOf(sizeof(JoystickSetup)
 #if WITH_DINO
                                          , sizeof(DinoGame)
 #endif
+#if WITH_ARKANOID
+                                         , sizeof(ArkanoidGame)
+#endif
 #if GAMEBOX_HAS_WIFI
                                          , sizeof(SettingsApp)
 #endif
@@ -95,6 +104,9 @@ const GameInfo GAMES[] = {
 #endif
 #if WITH_DINO
     {"DINO RUN", create<DinoGame>},
+#endif
+#if WITH_ARKANOID
+    {"ARKANOID", create<ArkanoidGame>},
 #endif
     // Служебное — в конце списка
     {"JOYSTICK SETUP", create<JoystickSetup>},
