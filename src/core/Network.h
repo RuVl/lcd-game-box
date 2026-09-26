@@ -11,18 +11,17 @@
 
 #include <Arduino.h>
 
-namespace Network {
+namespace Network
+{
+    constexpr const char* HOSTNAME = "lcd-game-box";
 
-constexpr const char *HOSTNAME = "lcd-game-box";
+    void begin();
+    void update(); // вызывать каждый проход loop()
 
-void begin();
-void update();  // вызывать каждый проход loop()
+    bool connected();
+    String ip();
 
-bool connected();
-String ip();
-
-void connect(const char *ssid, const char *pass);  // новая сеть, запоминается
-
-}  // namespace Network
+    void connect(const char* ssid, const char* pass); // новая сеть, запоминается
+} // namespace Network
 
 #endif

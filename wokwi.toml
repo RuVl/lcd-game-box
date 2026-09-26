@@ -1,5 +1,5 @@
-# Симулятор Wokwi (VS Code: расширение Wokwi Simulator → «Wokwi: Start Simulator»).
-# Схема — diagram.json. Сначала собрать прошивку: pio run -e uno
+# Симулятор Wokwi (VS Code: расширение Wokwi Simulator → "Wokwi: Start Simulator").
+# Схема - diagram.json. Сначала собрать прошивку: pio run -e uno
 [wokwi]
 version = 1
 firmware = ".pio/build/uno/firmware.hex"

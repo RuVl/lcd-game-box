@@ -9,7 +9,7 @@
   * считает нужные спрайты (правила MarioGame::usedSprites()): их должно быть не больше 7;
   * предупреждает о врагах, которые ходят под кирпичами, где их нельзя перепрыгнуть.
 
-Запуск: python3 tools/check_levels.py   (код возврата 1 — есть проблемы)
+Запуск: python3 tools/check_levels.py   (код возврата 1 - есть проблемы)
 """
 import re
 import sys
@@ -99,7 +99,7 @@ def check(name, top, raw, castle, fire):
     if len(sp) > 7:
         problems.append(f"нужно {len(sp)} спрайтов, помещается 7: {sorted(sp)}")
 
-    # Нижний ряд без врагов и платформ — как bottomRow в прошивке
+    # Нижний ряд без врагов и платформ - как bottomRow в прошивке
     bot = "".join("_" if c in "GK" else "=" if c == "B" else " " if c == "L" else c for c in raw)
     goals = [i for i, c in enumerate(bot) if c in "|A"]
     if len(goals) != 1:

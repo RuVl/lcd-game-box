@@ -35,7 +35,7 @@ def tag(pin, name, dx=0, dy=0):
 
 
 def ground(pin, dy=-34):
-    """Короткий провод к значку земли — для тесных мест, где метка не помещается."""
+    """Короткий провод к значку земли - для тесных мест, где метка не помещается."""
     x, y = pin
     ey = y + dy
     s.wire([(x, y), (x, ey)], BLK, width=3)
@@ -65,13 +65,13 @@ tag(P['b.5V'], '5V', dx=60)
 
 # --- 74HC595 ------------------------------------------------------------------------------
 SP = 26
-CX, CY = 440, 410  # вывод 16 (VCC) — левый верхний
+CX, CY = 440, 410  # вывод 16 (VCC) - левый верхний
 s.text(CX + 7 * SP + 30, CY + 42, '74HC595', size=12, weight='bold')
 s.add(f"<rect x='{CX - 18}' y='{CY + 8}' width='{7 * SP + 36}' height='56' rx='4' fill='#2b2b2b'/>"
       f"<circle cx='{CX - 6}' cy='{CY + 36}' r='5' fill='#555'/>")
 top = ['VCC', 'Q0', 'DS', 'OE', 'ST_CP', 'SH_CP', 'MR', "Q7'"]   # выводы 16…9
 bot = ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'GND']          # выводы 1…8
-# Подписи выводов — внутри корпуса тёмным по светлому, номера — снаружи.
+# Подписи выводов - внутри корпуса тёмным по светлому, номера - снаружи.
 s.header(CX, CY, top, SP, False, 'above', prefix='c.', labels=False)
 s.header(CX, CY + 72, bot, SP, False, 'below', prefix='c.', labels=False)
 for n in range(8):
@@ -138,12 +138,12 @@ s.pcb(JX, JY, 170, 170, '#222831', rx=8)
 s.add(f"<circle cx='{JX + 100}' cy='{JY + 85}' r='50' fill='#3a3f47' stroke='#11151a' stroke-width='3'/>"
       f"<circle cx='{JX + 100}' cy='{JY + 85}' r='30' fill='#111' stroke='#555' stroke-width='3'/>")
 jpins = ['GND', '+5V', 'VRx', 'VRy', 'SW']
-jy0 = P['b.D1'][1] - 2 * PITCH  # VRx на уровне D1, VRy — D2, SW — D3
+jy0 = P['b.D1'][1] - 2 * PITCH  # VRx на уровне D1, VRy - D2, SW - D3
 s.header(JX + 14, jy0, jpins, PITCH, True, 'right', bold=set(jpins), prefix='j.')
 s.text(JX + 100, JY + 162, 'джойстик KY-023', size=11, weight='bold', color='white', anchor='middle', layer='parts')
 tag(P['j.GND'], 'GND', dx=-40)
 tag(P['j.+5V'], '3V3', dx=-40)
-s.text(JX + 85, JY + 196, '+5V джойстика — на 3V3!', size=11, weight='bold', color=MAG, anchor='middle')
+s.text(JX + 85, JY + 196, '+5V джойстика - на 3V3!', size=11, weight='bold', color=MAG, anchor='middle')
 
 # SW → D3 напрямую
 s.wire([P['j.SW'], P['b.D3']], BLU)
@@ -164,7 +164,7 @@ for axis, jpin, bpin in [('X', 'VRx', 'D1'), ('Y', 'VRy', 'D2')]:
     s.wire([(xs[axis], diode_top + 44), (xs[axis], diode_top)], BLU)
     s.text(xs[axis] + 8, y - 6, f'узел {axis}', size=10, color=TEAL)
 s.text(xs['X'] + 22, diode_top + 70, '2 × 1N4007', size=11, weight='bold')
-s.text(xs['X'] + 22, diode_top + 86, 'полоска — к A0', size=10, color='#495057')
+s.text(xs['X'] + 22, diode_top + 86, 'полоска - к A0', size=10, color='#495057')
 s.text(JX - 100, P['j.VRy'][1] + 30, '2 × 1 кОм', size=11, weight='bold', anchor='middle')
 # катоды вместе → A0 поверх платы
 a0 = P['b.A0']
@@ -182,7 +182,7 @@ s.add(f"<circle cx='{ZX}' cy='{ZY}' r='40' fill='#1e1e1e'/><circle cx='{ZX}' cy=
 s.text(ZX + 50, ZY + 4, 'зуммер', size=11, weight='bold')
 tag((ZX + 16, ZY - 40), 'GND', dx=60, dy=0)
 
-s.note(40, 975, ['RW дисплея — на GND. D0…D3 не подключаются. LCD питается от 5 В, а 74HC595 — от 3,3 В: '
+s.note(40, 975, ['RW дисплея - на GND. D0…D3 не подключаются. LCD питается от 5 В, а 74HC595 - от 3,3 В: '
                  'HD44780 при 5 В читает 3,3 В как единицу.',
                  'Кнопку стика (D3 = GPIO0) не держать при включении: плата уйдёт в режим прошивки.'])
 s.save(OUT, 'LCD Game Box на Wemos D1 mini')

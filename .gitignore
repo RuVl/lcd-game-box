@@ -13,5 +13,5 @@ __pycache__/
 # Claude Code
 .claude/
 
-# Черновые PNG-копии схем (в README — SVG)
+# Черновые PNG-копии схем (в README - SVG)
 docs/wiring/*.png

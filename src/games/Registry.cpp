@@ -1,20 +1,23 @@
 // Список игр устройства и общая область памяти для них.
 //
 // Какие игры попадают в прошивку:
-//   ESP8266 — все;
-//   UNO (32 КБ Flash — все сразу не влезают), набор задаёт окружение сборки:
-//     uno        — Mario, Tetris, Snake, Dino Run;
-//     uno_arcade — все аркады без Mario (-D GAMEBOX_UNO_ARCADE).
+//   ESP8266 - все;
+//   UNO (32 КБ Flash - все сразу не влезают), набор задаёт окружение сборки:
+//     uno        - Mario, Tetris, Snake, Dino Run;
+//     uno_arcade - все аркады без Mario (-D GAMEBOX_UNO_ARCADE).
 //
 // Чтобы добавить игру:
 //   1. создать src/games/<name>/ с классом, унаследованным от Game (см. core/Game.h);
 //   2. завести макрос WITH_<NAME> ниже, подключить заголовок, добавить sizeof в GAME_ARENA_SIZE
-//      и строку в GAMES — всё под #if WITH_<NAME>;
-//   3. если игра хранит рекорд — взять следующий свободный слот Storage:
+//      и строку в GAMES - всё под #if WITH_<NAME>;
+//   3. если игра хранит рекорд - взять следующий свободный слот Storage:
 //      0 Mario, 1 Tetris, 2 Snake, 3 Dino, 4 Arkanoid, 5 Flappy, 6 Shooter, 7 Racing.
 #include <new>
 
 #include "core/Config.h"
+#if !defined(GAMEBOX_HAS_WIFI)
+#error "core/Config.h is required: GAMEBOX_* macros select what is built"
+#endif
 #include "core/GameRegistry.h"
 
 #if !GAMEBOX_SMALL
@@ -71,20 +74,26 @@
 #include "games/racing/RacingGame.h"
 #endif
 #include "system/JoystickSetup.h"
+#if GAMEBOX_HAS_WIFI
 #include "system/SettingsApp.h"
+#endif
 
-namespace {
-constexpr size_t maxOf(size_t a) { return a; }
-template <class... Rest>
-constexpr size_t maxOf(size_t a, size_t b, Rest... rest) {
-  return maxOf(a > b ? a : b, rest...);
-}
+namespace
+{
+    constexpr size_t maxOf(size_t a) { return a; }
 
-template <class T>
-Game *create(void *memory) {
-  return new (memory) T();
-}
-}  // namespace
+    template <class... Rest>
+    constexpr size_t maxOf(size_t a, size_t b, Rest... rest)
+    {
+        return maxOf(a > b ? a : b, rest...);
+    }
+
+    template <class T>
+    Game* create(void* memory)
+    {
+        return new(memory) T();
+    }
+} // namespace
 
 // Размер самой большой игры: одновременно в памяти только запущенная.
 constexpr size_t GAME_ARENA_SIZE = maxOf(sizeof(JoystickSetup)
@@ -144,7 +153,7 @@ const GameInfo GAMES[] = {
 #if WITH_RACING
     {"RACING", create<RacingGame>},
 #endif
-    // Служебное — в конце списка
+    // Служебное - в конце списка
     {"JOYSTICK SETUP", create<JoystickSetup>},
 #if GAMEBOX_HAS_WIFI
     {"SETTINGS", create<SettingsApp>},
