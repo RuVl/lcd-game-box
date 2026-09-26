@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "author": "RuVl",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 150, "left": 0, "attrs": {} },
+    { "type": "wokwi-lcd1602", "id": "lcd", "top": -120, "left": 20, "attrs": { "pins": "full" } },
+    { "type": "wokwi-analog-joystick", "id": "joy", "top": 160, "left": 360, "attrs": {} },
+    { "type": "wokwi-buzzer", "id": "bz", "top": 20, "left": 400, "attrs": { "volume": "0.3" } },
+    { "type": "wokwi-resistor", "id": "r_bz", "top": 110, "left": 330, "attrs": { "value": "100" } },
+    { "type": "wokwi-resistor", "id": "r_bl", "top": -150, "left": 330, "attrs": { "value": "220" } },
+    { "type": "wokwi-potentiometer", "id": "pot", "top": -130, "left": -110, "attrs": {} }
+  ],
+  "connections": [
+    ["lcd:VSS", "uno:GND.1", "black", []],
+    ["lcd:VDD", "uno:5V", "red", []],
+    ["lcd:RW", "uno:GND.1", "black", []],
+    ["lcd:K", "uno:GND.1", "black", []],
+    ["lcd:A", "r_bl:2", "red", []],
+    ["r_bl:1", "uno:5V", "red", []],
+    ["pot:GND", "uno:GND.1", "black", []],
+    ["pot:VCC", "uno:5V", "red", []],
+    ["pot:SIG", "lcd:V0", "orange", []],
+    ["lcd:RS", "uno:12", "green", []],
+    ["lcd:E", "uno:11", "green", []],
+    ["lcd:D4", "uno:2", "green", []],
+    ["lcd:D5", "uno:3", "green", []],
+    ["lcd:D6", "uno:4", "green", []],
+    ["lcd:D7", "uno:5", "green", []],
+    ["joy:VCC", "uno:5V", "red", []],
+    ["joy:GND", "uno:GND.2", "black", []],
+    ["joy:HORZ", "uno:A0", "blue", []],
+    ["joy:VERT", "uno:A1", "blue", []],
+    ["joy:SEL", "uno:8", "blue", []],
+    ["uno:9", "r_bz:1", "orange", []],
+    ["r_bz:2", "bz:2", "orange", []],
+    ["bz:1", "uno:GND.2", "black", []]
+  ],
+  "dependencies": {}
+}

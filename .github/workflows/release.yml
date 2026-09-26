@@ -1,0 +1,48 @@
+# Выпуск версии: поднять GAMEBOX_VERSION в src/core/Config.h и version в project.json,
+# закоммитить и запушить тег: git tag v0.2.0 && git push origin v0.2.0
+# Прошивки попадут в GitHub Release; ESP8266 найдёт их через project.json (Settings → CHECK UPDATE).
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check versions match the tag
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          FW=$(grep -oP '#define GAMEBOX_VERSION "\K[^"]+' src/core/Config.h)
+          MANIFEST=$(python3 -c "import json; print(json.load(open('project.json'))['version'])")
+          echo "tag=$TAG firmware=$FW project.json=$MANIFEST"
+          test "$TAG" = "$FW" && test "$TAG" = "$MANIFEST"
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Check Mario levels
+        run: python3 tools/check_levels.py
+
+      - name: Build
+        run: |
+          pio run -e uno -e uno_arcade -e d1_mini
+          mkdir dist
+          cp .pio/build/uno/firmware.hex dist/lcd-game-box-uno.hex
+          cp .pio/build/uno_arcade/firmware.hex dist/lcd-game-box-uno_arcade.hex
+          cp .pio/build/d1_mini/firmware.bin dist/lcd-game-box-d1_mini.bin
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --title "$GITHUB_REF_NAME" --generate-notes

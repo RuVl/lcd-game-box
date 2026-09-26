@@ -1,0 +1,17 @@
+# PlatformIO
+.pio/
+compile_commands.json
+
+# IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# Python
+__pycache__/
+
+# Claude Code
+.claude/
+
+# Черновые PNG-копии схем (в README — SVG)
+docs/wiring/*.png

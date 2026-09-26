@@ -1,0 +1,17 @@
+{
+  "name": "LCD Game Box",
+  "about": "Игровая приставка из LCD1602, джойстика и зуммера на Arduino UNO или ESP8266",
+  "version": "0.2.0",
+  "notes": "Wi-Fi, обновления по воздуху, EncButton, проверка джойстика",
+  "builds": [
+    {
+      "chipFamily": "ESP8266",
+      "parts": [
+        {
+          "path": "https://github.com/RuVl/lcd-game-box/releases/latest/download/lcd-game-box-d1_mini.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}
