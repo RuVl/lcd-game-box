@@ -37,7 +37,7 @@ MAX_LEVEL_LEN = constant(types, "MAX_LEVEL_LEN")
 
 def load_levels():
     src = LEVELS_H.read_text()
-    strings = dict(re.findall(r'const char (\w+)\[\] PROGMEM =\s*"([^"]*)";', src))
+    strings = dict(re.findall(r'(?:const|constexpr) char (\w+)\[\] PROGMEM =\s*"([^"]*)";', src))
     rows = re.findall(r"\{(\w+), (\w+), (\d+), (\d+), (\d+), (true|false), (true|false)\}", src)
     return [(f"{w}-{n}", strings[t], strings[b], c == "true", f == "true") for t, b, w, n, _, c, f in rows]
 
