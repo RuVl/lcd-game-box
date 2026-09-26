@@ -24,6 +24,7 @@
 #define WITH_DINO 1
 #define WITH_ARKANOID 1
 #define WITH_FLAPPY 1
+#define WITH_SHOOTER 1
 #elif defined(GAMEBOX_UNO_ARCADE)
 #define WITH_MARIO 0
 #define WITH_TETRIS 1
@@ -31,6 +32,7 @@
 #define WITH_DINO 1
 #define WITH_ARKANOID 1
 #define WITH_FLAPPY 1
+#define WITH_SHOOTER 1
 #else
 #define WITH_MARIO 1
 #define WITH_TETRIS 1
@@ -38,6 +40,7 @@
 #define WITH_DINO 1
 #define WITH_ARKANOID 0
 #define WITH_FLAPPY 0
+#define WITH_SHOOTER 0
 #endif
 
 #if WITH_MARIO
@@ -57,6 +60,9 @@
 #endif
 #if WITH_FLAPPY
 #include "games/flappy/FlappyGame.h"
+#endif
+#if WITH_SHOOTER
+#include "games/shooter/ShooterGame.h"
 #endif
 #include "system/JoystickSetup.h"
 #include "system/SettingsApp.h"
@@ -94,6 +100,9 @@ constexpr size_t GAME_ARENA_SIZE = maxOf(sizeof(JoystickSetup)
 #if WITH_FLAPPY
                                          , sizeof(FlappyGame)
 #endif
+#if WITH_SHOOTER
+                                         , sizeof(ShooterGame)
+#endif
 #if GAMEBOX_HAS_WIFI
                                          , sizeof(SettingsApp)
 #endif
@@ -119,6 +128,9 @@ const GameInfo GAMES[] = {
 #endif
 #if WITH_FLAPPY
     {"FLAPPY BIRD", create<FlappyGame>},
+#endif
+#if WITH_SHOOTER
+    {"SPACE SHOOTER", create<ShooterGame>},
 #endif
     // Служебное — в конце списка
     {"JOYSTICK SETUP", create<JoystickSetup>},
