@@ -19,14 +19,20 @@
 
 #if !GAMEBOX_SMALL
 #define WITH_MARIO 1
+#define WITH_TETRIS 1
 #elif defined(GAMEBOX_UNO_ARCADE)
 #define WITH_MARIO 0
+#define WITH_TETRIS 1
 #else
 #define WITH_MARIO 1
+#define WITH_TETRIS 1
 #endif
 
 #if WITH_MARIO
 #include "games/mario/MarioGame.h"
+#endif
+#if WITH_TETRIS
+#include "games/tetris/TetrisGame.h"
 #endif
 #include "system/JoystickSetup.h"
 #include "system/SettingsApp.h"
@@ -49,6 +55,9 @@ constexpr size_t GAME_ARENA_SIZE = maxOf(sizeof(JoystickSetup)
 #if WITH_MARIO
                                          , sizeof(MarioGame)
 #endif
+#if WITH_TETRIS
+                                         , sizeof(TetrisGame)
+#endif
 #if GAMEBOX_HAS_WIFI
                                          , sizeof(SettingsApp)
 #endif
@@ -59,6 +68,9 @@ uint8_t gameArena[GAME_ARENA_SIZE];
 const GameInfo GAMES[] = {
 #if WITH_MARIO
     {"SUPER MARIO", create<MarioGame>},
+#endif
+#if WITH_TETRIS
+    {"TETRIS", create<TetrisGame>},
 #endif
     // Служебное — в конце списка
     {"JOYSTICK SETUP", create<JoystickSetup>},
